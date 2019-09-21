@@ -62,7 +62,19 @@ async def analyze(request):
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
     prediction = learn.predict(img)[0]
-    return JSONResponse({'result': str(prediction)})
+    prediction = str(prediction)
+    formatted_prediction = 'Unknown'
+    if prediction == 'lmbass':
+        formatted_prediction = 'Largemouth Bass'
+    elif prediction == 'smbass':
+        formatted_prediction = 'Smallmouth Bass'
+    elif prediction == 'northern':
+        formatted_prediction = 'Northern Pike'
+    elif prediction == 'walleye':
+        formatted_prediction = 'Walleye'
+    elif prediction == 'crappie':
+        formatted_prediction = 'Crappie'
+    return JSONResponse({'result': str(formatted_prediction)})
 
 
 if __name__ == '__main__':
